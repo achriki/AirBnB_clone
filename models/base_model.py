@@ -1,7 +1,7 @@
 #!/usr/bin/pyhton3
 """Defines the BaseModel class."""
 import uuid
-from models import storage
+#from models import storage
 from datetime import datetime
 
 
@@ -19,18 +19,17 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
         if len(kwargs) != 0:
-            for k, v in kwargs:
+            for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
-                    self.__dic__[k] = datetime.strptime(v, tform)
+                    self.__dict__[k] = datetime.strptime(v, tform)
                 else:
                     self.__dict__[k] = v
-        else:
-            storage.new(self)
+        #else:
+            #storage.new(self)
 
     def save(self):
         """Update updated_at with the current datetime."""
         self.updated_at = datetime.now()
-        storage.save()
 
     def to_dict(self):
         """Return the dictionary of the BaseModel instance.
@@ -46,4 +45,4 @@ class BaseModel:
     def __str__(self):
         """Return the print/str representation of the BaseModel instance."""
         class_name = self.__class__.__name__
-        return "[{}] ({}) ({})".format(class_name, self.id, self.__dic__)
+        return "[{}] ({}) ({})".format(class_name, self.id, self.__dict__)
