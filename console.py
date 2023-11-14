@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
         objectsl = storage.all()
         argl = arg[0:].split(' ')
 
-        if len(argl) == 0:
+        if len(argl) == 0 or argl[0] == "":
             print("** class name missing **")
             return False
         if argl[0] not in self.__classes:
