@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import json
 import os
+from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -34,7 +36,7 @@ class FileStorage:
         if os.path.exists(self.__file_path):
             with open(self.__file_path) as json_file:
                 desr_objs = json.load(json_file)
-                from models.base_model import BaseModel
-                for key, obj in desr_objs.items():
-                    if obj is not None:
-                        self.__objects[key] = BaseModel(**obj)
+                for obj in desr_objs.values():
+                    cls_name = obj["__class__"]
+                    del obj["__class__"]
+                    self.new(eval(cls_name)(**obj))
